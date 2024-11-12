@@ -1,9 +1,9 @@
-import { css } from 'styled-components';
+import { css } from "styled-components";
 
 const fontFamily = {
   sans: '"Helvetica Neue", Arial, sans-serif',
-  serif: 'Georgia, serif',
-  mono: 'Menlo, monospace',
+  serif: "Georgia, serif",
+  mono: "Menlo, monospace",
 };
 
 const fontWeights = {
@@ -19,16 +19,16 @@ const fontWeights = {
 };
 
 const fontSizes = {
-  xs: '0.75rem',    // 12px
-  sm: '0.875rem',   // 14px
-  base: '1rem',     // 16px
-  lg: '1.125rem',   // 18px
-  xl: '1.25rem',    // 20px
-  '2xl': '1.5rem',  // 24px
-  '3xl': '1.875rem',// 30px
-  '4xl': '2.25rem', // 36px
-  '5xl': '3rem',    // 48px
-  '6xl': '3.75rem', // 60px
+  xs: "0.75rem", // 12px
+  sm: "0.875rem", // 14px
+  base: "1rem", // 16px
+  lg: "1.125rem", // 18px
+  xl: "1.25rem", // 20px
+  "2xl": "1.5rem", // 24px
+  "3xl": "1.875rem", // 30px
+  "4xl": "2.25rem", // 36px
+  "5xl": "3rem", // 48px
+  "6xl": "3.75rem", // 60px
 };
 
 const lineHeights = {
@@ -41,12 +41,12 @@ const lineHeights = {
 };
 
 const letterSpacings = {
-  tighter: '-0.05em',
-  tight: '-0.025em',
-  normal: '0em',
-  wide: '0.025em',
-  wider: '0.05em',
-  widest: '0.1em',
+  tighter: "-0.05em",
+  tight: "-0.025em",
+  normal: "0em",
+  wide: "0.025em",
+  wider: "0.05em",
+  widest: "0.1em",
 };
 
 export const typography = {
@@ -58,7 +58,7 @@ export const typography = {
 
   h1: css`
     font-family: ${fontFamily.sans};
-    font-size: ${fontSizes['6xl']}; // 60px
+    font-size: ${fontSizes["6xl"]}; // 60px
     font-weight: ${fontWeights.bold};
     line-height: ${lineHeights.tight}; // 1.25
     letter-spacing: ${letterSpacings.tight};
@@ -67,7 +67,7 @@ export const typography = {
 
   h2: css`
     font-family: ${fontFamily.sans};
-    font-size: ${fontSizes['5xl']}; // 48px
+    font-size: ${fontSizes["5xl"]}; // 48px
     font-weight: ${fontWeights.bold};
     line-height: ${lineHeights.tight}; // 1.25
     letter-spacing: ${letterSpacings.tight};
@@ -76,7 +76,7 @@ export const typography = {
 
   h3: css`
     font-family: ${fontFamily.sans};
-    font-size: ${fontSizes['4xl']}; // 36px
+    font-size: ${fontSizes["4xl"]}; // 36px
     font-weight: ${fontWeights.semiBold};
     line-height: ${lineHeights.snug}; // 1.375
     letter-spacing: ${letterSpacings.normal};
@@ -85,7 +85,7 @@ export const typography = {
 
   h4: css`
     font-family: ${fontFamily.sans};
-    font-size: ${fontSizes['3xl']}; // 30px
+    font-size: ${fontSizes["3xl"]}; // 30px
     font-weight: ${fontWeights.semiBold};
     line-height: ${lineHeights.snug}; // 1.375
     letter-spacing: ${letterSpacings.normal};
@@ -94,7 +94,7 @@ export const typography = {
 
   h5: css`
     font-family: ${fontFamily.sans};
-    font-size: ${fontSizes['2xl']}; // 24px
+    font-size: ${fontSizes["2xl"]}; // 24px
     font-weight: ${fontWeights.medium};
     line-height: ${lineHeights.normal}; // 1.5
     letter-spacing: ${letterSpacings.normal};
@@ -130,9 +130,81 @@ export const typography = {
 
   caption: css`
     font-family: ${fontFamily.sans};
-    font-size: ${fontSizes.xs}; // 12px
+    font-size: ${fontSizes.sm}; // 12px
     font-weight: ${fontWeights.normal};
     line-height: ${lineHeights.snug}; // 1.375
+    letter-spacing: ${letterSpacings.normal};
+    margin: 0;
+  `,
+  h1Tablet: css`
+    font-family: ${fontFamily.sans};
+    font-size: ${fontSizes["5xl"]};
+    font-weight: ${fontWeights.bold};
+    line-height: ${lineHeights.tight};
+    letter-spacing: ${letterSpacings.tight};
+    margin: 0;
+  `,
+  h2Tablet: css`
+    font-family: ${fontFamily.sans};
+    font-size: ${fontSizes["4xl"]};
+    font-weight: ${fontWeights.bold};
+    line-height: ${lineHeights.tight};
+    letter-spacing: ${letterSpacings.tight};
+    margin: 0;
+  `,
+  h3Tablet: css`
+    font-family: ${fontFamily.sans};
+    font-size: ${fontSizes["3xl"]};
+    font-weight: ${fontWeights.semiBold};
+    line-height: ${lineHeights.snug};
+    letter-spacing: ${letterSpacings.normal};
+    margin: 0;
+  `,
+  h4Tablet: css`
+    font-family: ${fontFamily.sans};
+    font-size: ${fontSizes["2xl"]};
+    font-weight: ${fontWeights.semiBold};
+    line-height: ${lineHeights.snug};
+    letter-spacing: ${letterSpacings.normal};
+    margin: 0;
+  `,
+  h5Tablet: css`
+    font-family: ${fontFamily.sans};
+    font-size: ${fontSizes.xl};
+    font-weight: ${fontWeights.medium};
+    line-height: ${lineHeights.normal};
+    letter-spacing: ${letterSpacings.normal};
+    margin: 0;
+  `,
+  h6Tablet: css`
+    font-family: ${fontFamily.sans};
+    font-size: ${fontSizes.lg};
+    font-weight: ${fontWeights.medium};
+    line-height: ${lineHeights.normal};
+    letter-spacing: ${letterSpacings.normal};
+    margin: 0;
+  `,
+  bodyTablet: css`
+    font-family: ${fontFamily.sans};
+    font-size: ${fontSizes.xs};
+    font-weight: ${fontWeights.normal};
+    line-height: ${lineHeights.relaxed};
+    letter-spacing: ${letterSpacings.normal};
+    margin: 0;
+  `,
+  smallTablet: css`
+    font-family: ${fontFamily.sans};
+    font-size: ${fontSizes.xs};
+    font-weight: ${fontWeights.normal};
+    line-height: ${lineHeights.normal};
+    letter-spacing: ${letterSpacings.normal};
+    margin: 0;
+  `,
+  captionTablet: css`
+    font-family: ${fontFamily.sans};
+    font-size: ${fontSizes.xs};
+    font-weight: ${fontWeights.normal};
+    line-height: ${lineHeights.snug};
     letter-spacing: ${letterSpacings.normal};
     margin: 0;
   `,

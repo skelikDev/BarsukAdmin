@@ -193,6 +193,7 @@ const Content = styled.div`
   padding: ${theme.dimensions.spacing[4]};
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
   gap: ${theme.dimensions.spacing[4]};
 `;
 

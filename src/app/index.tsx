@@ -11,32 +11,64 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h1 {
-    ${theme.typography.h1};
+    ${theme.typography.h1Tablet};
   }
 
   h2 {
-    ${theme.typography.h2};
+    ${theme.typography.h2Tablet};
   }
 
   h3 {
-    ${theme.typography.h3};
+    ${theme.typography.h3Tablet};
   }
 
   h4 {
-    ${theme.typography.h4};
+    ${theme.typography.h4Tablet};
   }
 
   h5 {
-    ${theme.typography.h5};
+    ${theme.typography.h5Tablet};
   }
 
   h6 {
-    ${theme.typography.h6};
+    ${theme.typography.h6Tablet};
   }
 
   p, span, div {
-    ${theme.typography.body};
+    ${theme.typography.bodyTablet};
   }
+
+  @media (min-width: 768px) {
+
+    h1 {
+      ${theme.typography.h1};
+    }
+
+    h2 {
+      ${theme.typography.h2};
+    }
+
+    h3 {
+      ${theme.typography.h3};
+    }
+
+    h4 {
+      ${theme.typography.h4};
+    }
+
+    h5 {
+      ${theme.typography.h5};
+    }
+
+    h6 {
+      ${theme.typography.h6};
+    }
+
+    p, span, div {
+      ${theme.typography.body};
+    }
+  }
+
 
   body {
     margin: 0;

@@ -105,8 +105,8 @@ export const UserProfile: FC<UserProfileProps> = ({ id }) => {
       ) : (
         <>
           <UserInfo>
-            <div className="user-name">Имя: {capitalizeName(name)}</div>
-            <div className="user-phone">Телефон: {formatedPhone(phone)}</div>
+            <h6 className="user-name">Имя: {capitalizeName(name)}</h6>
+            <h6 className="user-phone">Телефон: {formatedPhone(phone)}</h6>
           </UserInfo>
           <Points
             points={points}
@@ -152,7 +152,6 @@ const UserInfo = styled.div`
 
   .user-name,
   .user-phone {
-    ${theme.typography.h6};
     color: ${theme.colors.text.secondary};
   }
 `;

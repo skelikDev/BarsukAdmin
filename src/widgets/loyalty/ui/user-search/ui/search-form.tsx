@@ -67,7 +67,7 @@ export const UserSearchForm: FC<UserSearchFormProps> = ({ onSearch }) => {
 
   return (
     <FormWrapper>
-      <h2>Search</h2>
+      <h4>Search</h4>
       <form onSubmit={form.handleSubmit}>
         <MaskedInput
           maskOptions={maskOptions}
