@@ -28,7 +28,6 @@ const USER_ROOT = '/users';
 const searchUser = async (query: UserSearchQuery): Promise<UserSearchResponse> => {
     try {
         const queryParams = queryfy(query);
-
         const response = await apiClient.get(`${USER_ROOT}?${queryParams}`);
 
         return response.data;

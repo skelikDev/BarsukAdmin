@@ -1,11 +1,23 @@
-import axios, { CreateAxiosDefaults } from 'axios';
+import axios, { CreateAxiosDefaults } from "axios";
+import { notify } from "../../shared/ui/notify";
 
-const baseURL = 'http://localhost:3000';
+const baseURL = import.meta.env.VITE_BACKEND_URL;
+
 const baseConfig: CreateAxiosDefaults = {
-    baseURL,
-    headers: {
-        'Content-Type': 'application/json',
-    }
-}
+  baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+const axiosInstance = axios.create(baseConfig);
 
-export const apiClient = axios.create(baseConfig);
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    notify("error", error.response?.data?.message || "Что-то пошло не так");
+
+    return Promise.reject(error);
+  },
+);
+
+export const apiClient = axiosInstance;
