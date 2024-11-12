@@ -42,10 +42,16 @@ export const UserList: FC<UserListProps> = ({
   const handleUserClick = (user: User) => {
     onUserSelect(user);
   };
-  const capitalizeName = (name: string) => {
+  const capitalizeName = (name?: string) => {
+    if (!name) {
+      return name;
+    }
     return name.charAt(0).toUpperCase() + name.slice(1);
   };
-  const formatedPhone = (phone: string) => {
+  const formatedPhone = (phone?: string) => {
+    if (!phone) {
+      return phone;
+    }
     return `+${phone.slice(0, 1)}(${phone.slice(1, 4)})${phone.slice(4, 7)}-${phone.slice(7, 9)}-${phone.slice(9, 11)}`;
   };
   return (
