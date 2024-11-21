@@ -1,0 +1,51 @@
+name: CI/CD Pipeline
+
+on:
+    push:
+        branches:
+            - main  # Основная ветка
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            # 1. Клонируем репозиторий
+            -   name: Checkout code
+                uses: actions/checkout@v3
+
+            # 2. Устанавливаем Node.js
+            -   name: Setup Node.js
+                uses: actions/setup-node@v3
+                with:
+                    node-version: 18  # Ваша версия Node.js
+
+            # 3. Устанавливаем зависимости и собираем проект
+            -   name: Install dependencies
+                run: npm install
+
+            -   name: Build the project
+                run: npm run build
+
+            # 4. Настройка SSH-ключа
+            -   name: Add SSH Key
+                run: |
+                    mkdir -p ~/.ssh
+                    echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/deploy_key
+                    chmod 600 ~/.ssh/deploy_key
+                    ssh-keyscan -H 195.49.213.49 >> ~/.ssh/known_hosts
+
+            # 5. Очистка папки /var/www/barsuk-admin на сервере
+            -   name: Clean server directory
+                run: |
+                    ssh -i ~/.ssh/deploy_key user@195.49.213.49 "rm -rf /var/www/barsuk-admin/*"
+
+            # 6. Копирование собранных файлов на сервер
+            -   name: Deploy files to server
+                run: |
+                    scp -i ~/.ssh/deploy_key -r dist/* user@195.49.213.49:/var/www/barsuk-admin/
+
+            # 7. Перезагрузка NGINX для обновления контента
+            -   name: Reload NGINX
+                run: |
+                    ssh -i ~/.ssh/deploy_key user@195.49.213.49 "sudo systemctl reload nginx"
