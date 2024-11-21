@@ -38,17 +38,17 @@ jobs:
             # 5. Создание целевой папки на сервере
             -   name: Create target directory
                 run: |
-                    ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "mkdir -p /var/www/barsuk-admin"
+                    ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "sudo mkdir -p /var/www/barsuk-admin"
 
             # 6. Очистка старых файлов
             -   name: Clean target directory
                 run: |
-                    ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "rm -rf /var/www/barsuk-admin/*"
+                    ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "sudo rm -rf /var/www/barsuk-admin/*"
 
             # 7. Копирование файлов на сервер
             -   name: Copy files to server
                 run: |
-                    scp -i ~/.ssh/deploy_key -r dist/* ubuntu@195.49.213.49:/var/www/barsuk-admin/
+                    sudo scp -i ~/.ssh/deploy_key -r dist/* ubuntu@195.49.213.49:/var/www/barsuk-admin/
 
             # 8. Перезагрузка NGINX
             -   name: Reload NGINX
