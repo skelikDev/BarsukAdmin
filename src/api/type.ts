@@ -1,31 +1,31 @@
-export enum ErrorCode {
-  UNAUTHORIZED = 401,
-  FORBIDDEN = 403,
-  NOT_FOUND = 404,
-  SERVER_ERROR = 500,
-  VALIDATION_ERROR = 422,
-}
+// export enum ErrorCode {
+//   UNAUTHORIZED = 401,
+//   FORBIDDEN = 403,
+//   NOT_FOUND = 404,
+//   SERVER_ERROR = 500,
+//   VALIDATION_ERROR = 422,
+// }
 
-type GenericError<T extends ErrorCode> = {
-  code: T;
-  message: string;
-};
+// type GenericError<T extends ErrorCode> = {
+//   code: T;
+//   message: string;
+// };
 
-type ServerError = GenericError<ErrorCode.SERVER_ERROR>;
-type NotFoundError = GenericError<ErrorCode.NOT_FOUND>;
-type ForbiddenError = GenericError<ErrorCode.FORBIDDEN>;
-type UnauthorizedError = GenericError<ErrorCode.UNAUTHORIZED>;
-type ValidationError = {
-  code: ErrorCode.VALIDATION_ERROR;
-  message: string;
-  field: string;
-};
+// type ServerError = GenericError<ErrorCode.SERVER_ERROR>;
+// type NotFoundError = GenericError<ErrorCode.NOT_FOUND>;
+// type ForbiddenError = GenericError<ErrorCode.FORBIDDEN>;
+// type UnauthorizedError = GenericError<ErrorCode.UNAUTHORIZED>;
+// type ValidationError = {
+//   code: ErrorCode.VALIDATION_ERROR;
+//   message: string;
+//   field: string;
+// };
 
-type DefaultError<T extends ErrorCode | undefined> =
-  | ServerError
-  | ForbiddenError
-  | UnauthorizedError
-  | T;
+// type DefaultError<T extends ErrorCode | undefined> =
+//   | ServerError
+//   | ForbiddenError
+//   | UnauthorizedError
+//   | T;
 
 type Collections<T> = {
   count: number;

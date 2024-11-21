@@ -4,8 +4,8 @@ import React, {
   forwardRef,
   KeyboardEventHandler,
   ReactNode,
-} from 'react';
-import * as Styled from './ui';
+} from "react";
+import * as Styled from "./ui";
 
 export type InputProps = {
   type?: string;
@@ -40,31 +40,23 @@ export type InputProps = {
   onInput?: FormEventHandler<HTMLInputElement>;
 
   icon?: ReactNode;
-  size?: 's' | 'm' | 'l';
+  size?: "s" | "m" | "l";
   error?: string;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({
-     icon,
-     size,
-     label,
-     error,
-     ...props
-   }, ref) => {
-    // @ts-expect-error
+  ({ icon, size, label, error, ...props }, ref) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     return (
       <Styled.Wrapper>
         {label && <Styled.Label>{label}</Styled.Label>}
         <Styled.InputWrapper>
           <Styled.Input ref={ref} {...props} $size={size} $error={!!error} />
-          <Styled.IconWrapper>
-            {icon}
-          </Styled.IconWrapper>
+          <Styled.IconWrapper>{icon}</Styled.IconWrapper>
         </Styled.InputWrapper>
         {error && <Styled.Error>{error}</Styled.Error>}
       </Styled.Wrapper>
-
     );
   },
 );

@@ -5,21 +5,21 @@ import { UserSearchForm } from "./ui/user-search/ui/search-form.tsx";
 import { UserList } from "./ui/user-list";
 import { theme } from "../../app/theme";
 
-const ddd = [
-  {
-    id: 5,
-    name: "test test",
-    phone: "73333333333",
-    points: 0,
-    registrationHistories: [
-      {
-        id: 5,
-        action: "REGISTRATION",
-        date: "2024-11-12T07:30:27.760Z",
-      },
-    ],
-  },
-];
+// const ddd = [
+//   {
+//     id: 5,
+//     name: "test test",
+//     phone: "73333333333",
+//     points: 0,
+//     registrationHistories: [
+//       {
+//         id: 5,
+//         action: "REGISTRATION",
+//         date: "2024-11-12T07:30:27.760Z",
+//       },
+//     ],
+//   },
+// ];
 
 type LoyaltyProps = {
   setSelectedUser: (user: User) => void;

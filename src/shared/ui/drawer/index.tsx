@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../../../app/theme";
 import { Menu } from "lucide-react";
@@ -15,7 +15,7 @@ interface DrawerProps {
 }
 
 const useControl = ({
-  withModChoose,
+  // withModChoose,
   isOutsideOpen,
   onClose,
   onOpen,
@@ -30,20 +30,24 @@ const useControl = ({
   const [isInnerOpen, setIsInnerOpen] = useState(false);
   const [isAlwaysOpen, setIsAlwaysOpen] = useState(false);
   const handleOpen = () => {
-    if (isControlled) {
-      onOpen && onOpen();
+    if (isControlled && onOpen) {
+      onOpen();
     } else {
       setIsInnerOpen(true);
-      onOpen && onOpen();
+      if (onOpen) {
+        onOpen();
+      }
     }
   };
 
   const handleClose = () => {
-    if (isControlled) {
-      onClose && onClose();
+    if (isControlled && onClose) {
+      onClose();
     } else {
       setIsInnerOpen(false);
-      onClose && onClose();
+      if (onOpen) {
+        onOpen();
+      }
     }
   };
 
@@ -123,7 +127,9 @@ export const Drawer: FC<DrawerProps> = ({
       {isBackdrop && (
         <Backdrop
           onClick={(event) => {
-            event.currentTarget === event.target && handleClose();
+            if (event.currentTarget === event.target) {
+              handleClose();
+            }
           }}
         />
       )}

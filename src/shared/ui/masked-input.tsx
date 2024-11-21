@@ -1,10 +1,10 @@
-import { FC, useEffect, useRef } from 'react';
-import IMask, { MaskedOptions } from 'imask';
-import { Input, InputProps } from './input';
+import { FC, useEffect, useRef } from "react";
+import IMask, { MaskedOptions } from "imask";
+import { Input, InputProps } from "./input";
 
 export type MaskedInputProps = InputProps & {
   maskOptions: MaskedOptions;
-}
+};
 
 export const MaskedInput: FC<MaskedInputProps> = (props) => {
   const { maskOptions, onChange, ...otherProps } = props;
@@ -12,11 +12,12 @@ export const MaskedInput: FC<MaskedInputProps> = (props) => {
 
   useEffect(() => {
     if (inputRef.current) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       const mask = IMask(inputRef.current, maskOptions);
-
-      mask.on('accept', () => {
-        if (inputRef.current && 'dispatchEvent' in inputRef.current) {
-          const event = new Event('input', { bubbles: true });
+      mask.on("accept", () => {
+        if (inputRef.current && "dispatchEvent" in inputRef.current) {
+          const event = new Event("input", { bubbles: true });
           inputRef.current.dispatchEvent(event);
         }
       });
@@ -29,4 +30,3 @@ export const MaskedInput: FC<MaskedInputProps> = (props) => {
 
   return <Input ref={inputRef} onChange={onChange} {...otherProps} />;
 };
-

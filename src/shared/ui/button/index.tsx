@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import React, { ButtonHTMLAttributes, forwardRef, ReactNode } from 'react';
-import { theme } from '../../../app/theme';
+import styled from "styled-components";
+import { ButtonHTMLAttributes, forwardRef, ReactNode } from "react";
+import { theme } from "../../../app/theme";
 
 export type StyledButtonProps = {
-  $size?: 's' | 'm' | 'l';
-  $variant?: 'primary' | 'secondary' | 'danger';
+  $size?: "s" | "m" | "l";
+  $variant?: "primary" | "secondary" | "danger";
   $disabled?: boolean;
   $fullWidth?: boolean;
 };
@@ -13,12 +13,12 @@ export const ButtonWrapper = styled.button<StyledButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: ${({ $fullWidth }) => $fullWidth ? '100%' : 'auto'};
+  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
   padding: ${({ theme, $size }) => {
     switch ($size) {
-      case 's':
+      case "s":
         return `${theme.dimensions.spacing[1]} ${theme.dimensions.spacing[2]}`;
-      case 'l':
+      case "l":
         return `${theme.dimensions.spacing[3]} ${theme.dimensions.spacing[4]}`;
       default:
         return `${theme.dimensions.spacing[2]} ${theme.dimensions.spacing[3]}`;
@@ -26,24 +26,22 @@ export const ButtonWrapper = styled.button<StyledButtonProps>`
   }};
   font-size: ${({ theme, $size }) => {
     switch ($size) {
-      case 's':
+      case "s":
         return theme.typography.fontSizes.sm;
-      case 'l':
+      case "l":
         return theme.typography.fontSizes.lg;
       default:
         return theme.typography.fontSizes.base;
     }
   }};
   font-family: ${theme.typography.fontFamily.sans};
-  color: ${({
-              theme,
-              $variant,
-            }) => $variant === 'primary' ? theme.colors.text.inverse : theme.colors.text.main};
+  color: ${({ $variant }) =>
+    $variant === "primary" ? theme.colors.text.invert : theme.colors.text.main};
   background-color: ${({ theme, $variant }) => {
     switch ($variant) {
-      case 'secondary':
+      case "secondary":
         return theme.colors.background.secondary;
-      case 'danger':
+      case "danger":
         return theme.colors.error.main;
       default:
         return theme.colors.interactive.main;
@@ -51,18 +49,26 @@ export const ButtonWrapper = styled.button<StyledButtonProps>`
   }};
   border: none;
   border-radius: ${theme.dimensions.borderRadius.default};
-  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
+  cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
   box-shadow: ${theme.shadows.xs};
   transition: all 0.2s;
 
   &:hover {
-    background-color: ${({ theme, $variant, $disabled }) =>
-            $disabled ? 'inherit' : $variant === 'danger' ? theme.colors.error.dark : theme.colors.interactive.hover};
+    background-color: ${({ $variant, $disabled }) =>
+      $disabled
+        ? "inherit"
+        : $variant === "danger"
+          ? theme.colors.error.main
+          : theme.colors.interactive.hover};
   }
 
   &:active {
-    background-color: ${({ theme, $variant, $disabled }) =>
-            $disabled ? 'inherit' : $variant === 'danger' ? theme.colors.error.darkest : theme.colors.interactive.active};
+    background-color: ${({ $variant, $disabled }) =>
+      $disabled
+        ? "inherit"
+        : $variant === "danger"
+          ? theme.colors.error.main
+          : theme.colors.interactive.active};
   }
 
   &:disabled {
@@ -72,23 +78,32 @@ export const ButtonWrapper = styled.button<StyledButtonProps>`
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon?: ReactNode;
-  size?: 's' | 'm' | 'l';
+  size?: "s" | "m" | "l";
   fullWidth?: boolean;
-  variant?: 'primary' | 'secondary' | 'danger';
+  variant?: "primary" | "secondary" | "danger";
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, icon, size, variant, fullWidth, ...props }, ref) => {
-
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     return (
-      <ButtonWrapper ref={ref} $size={size} $variant={variant}
-                     $fullWidth={fullWidth} {...props}>
-        {icon && <span
-          style={{ marginRight: icon && children ? '8px' : '0' }}>{icon}</span>}
+      <ButtonWrapper
+        ref={ref}
+        $size={size}
+        $variant={variant}
+        $fullWidth={fullWidth}
+        {...props}
+      >
+        {icon && (
+          <span style={{ marginRight: icon && children ? "8px" : "0" }}>
+            {icon}
+          </span>
+        )}
         {children}
       </ButtonWrapper>
     );
   },
 );
 
-Button.displayName = 'Button';
+Button.displayName = "Button";

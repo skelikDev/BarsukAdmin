@@ -48,6 +48,7 @@ export const UserProfile: FC<UserProfileProps> = ({ id }) => {
       const data = await userApi.getUserDetails(id);
       setUserDetails(data);
     } catch (err) {
+      console.log(err);
       setError("Не удалось загрузить данные пользователя. Попробуйте позже.");
     } finally {
       setIsLoading(false);
@@ -68,7 +69,7 @@ export const UserProfile: FC<UserProfileProps> = ({ id }) => {
       setIsLoading(true);
       const updatedPoints = userDetails.points + pointCounter;
       await userApi.updateUserPoints(id, { points: updatedPoints });
-      const pointAfterChange = points + pointCounter;
+      const pointAfterChange = userDetails.points + pointCounter;
       const sum = pointAfterChange - coffeeCounter * coffeePrice;
       setUserDetails((prev) =>
         prev
@@ -83,7 +84,7 @@ export const UserProfile: FC<UserProfileProps> = ({ id }) => {
     }
   };
 
-  const { name, phone, points } = userDetails ?? {};
+  // const { name, phone, points } = userDetails;
   const capitalizeName = (name?: string) => {
     if (!name) {
       return name;
@@ -105,11 +106,15 @@ export const UserProfile: FC<UserProfileProps> = ({ id }) => {
       ) : (
         <>
           <UserInfo>
-            <h6 className="user-name">Имя: {capitalizeName(name)}</h6>
-            <h6 className="user-phone">Телефон: {formatedPhone(phone)}</h6>
+            <h6 className="user-name">
+              Имя: {capitalizeName(userDetails?.name)}
+            </h6>
+            <h6 className="user-phone">
+              Телефон: {formatedPhone(userDetails?.phone)}
+            </h6>
           </UserInfo>
           <Points
-            points={points}
+            points={userDetails?.points ?? 0}
             coffeePrice={coffeePrice}
             coffeeCounter={coffeeCounter}
             pointCounter={pointCounter}

@@ -28,9 +28,13 @@ export const UserRegistration: FC<UserRegistrationProps> = ({ onCreate }) => {
   const form = useFormik({
     initialValues,
     onSubmit: async (values: UserRegistrationValues) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       const phone = values.phone.match(/\d+/g).join("");
       const user = await api.user.createUser({ name: values.name, phone });
-      onCreate && onCreate(user);
+      if (onCreate) {
+        onCreate(user);
+      }
       notify("success", "Пользователь успешно создан");
       form.resetForm();
     },
@@ -49,6 +53,8 @@ export const UserRegistration: FC<UserRegistrationProps> = ({ onCreate }) => {
       if (!values.phone) {
         errors.phone = "Required";
       } else {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         const phone = values.phone.match(/\d+/g).join("");
         if (phone.length < 11) {
           errors.phone = "Phone is too short";

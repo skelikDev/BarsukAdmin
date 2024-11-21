@@ -1,5 +1,5 @@
-import { userApi } from './user';
+import { userApi } from "./user";
 
 export const api = {
-    user: userApi
-}
+  user: userApi,
+};
