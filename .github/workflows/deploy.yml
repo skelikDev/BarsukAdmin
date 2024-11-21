@@ -18,7 +18,7 @@ jobs:
             -   name: Setup Node.js
                 uses: actions/setup-node@v3
                 with:
-                    node-version: 18  # Ваша версия Node.js
+                    node-version: 18
 
             # 3. Устанавливаем зависимости и собираем проект
             -   name: Install dependencies
@@ -35,17 +35,22 @@ jobs:
                     chmod 600 ~/.ssh/deploy_key
                     ssh-keyscan -H 195.49.213.49 >> ~/.ssh/known_hosts
 
-            # 5. Очистка папки /var/www/barsuk-admin на сервере
-            -   name: Clean server directory
+            # 5. Создание целевой папки на сервере
+            -   name: Create target directory
+                run: |
+                    ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "mkdir -p /var/www/barsuk-admin"
+
+            # 6. Очистка старых файлов
+            -   name: Clean target directory
                 run: |
                     ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "rm -rf /var/www/barsuk-admin/*"
 
-            # 6. Копирование собранных файлов на сервер
-            -   name: Deploy files to server
+            # 7. Копирование файлов на сервер
+            -   name: Copy files to server
                 run: |
                     scp -i ~/.ssh/deploy_key -r dist/* ubuntu@195.49.213.49:/var/www/barsuk-admin/
 
-            # 7. Перезагрузка NGINX для обновления контента
+            # 8. Перезагрузка NGINX
             -   name: Reload NGINX
                 run: |
                     ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "sudo systemctl reload nginx"
