@@ -54,7 +54,7 @@ jobs:
             # 8. Копирование файлов на сервер
             -   name: Copy files to server
                 run: |
-                    scp -i ~/.ssh/deploy_key -r dist/* ubuntu@195.49.213.49:/var/www/barsuk-admin/
+                    sudo scp -i ~/.ssh/deploy_key -r dist/* ubuntu@195.49.213.49:/var/www/barsuk-admin/
 
             # 9. Перезагрузка NGINX
             -   name: Reload NGINX
