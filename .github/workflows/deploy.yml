@@ -37,7 +37,9 @@ jobs:
             # 5. Добавление сервера в known_hosts
             -   name: Add server to known_hosts
                 run: |
+                    mkdir -p ~/.ssh
                     ssh-keyscan -H 195.49.213.49 >> ~/.ssh/known_hosts
+                    chmod 600 ~/.ssh/known_hosts
 
             # 6. Создание целевой папки на сервере
             -   name: Create target directory
@@ -52,7 +54,7 @@ jobs:
             # 8. Копирование файлов на сервер
             -   name: Copy files to server
                 run: |
-                    sudo scp -i ~/.ssh/deploy_key -r dist/* ubuntu@195.49.213.49:/var/www/barsuk-admin/
+                    scp -i ~/.ssh/deploy_key -r dist/* ubuntu@195.49.213.49:/var/www/barsuk-admin/
 
             # 9. Перезагрузка NGINX
             -   name: Reload NGINX
