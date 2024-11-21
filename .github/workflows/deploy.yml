@@ -33,24 +33,28 @@ jobs:
                     mkdir -p ~/.ssh
                     echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/deploy_key
                     chmod 600 ~/.ssh/deploy_key
+
+            # 5. Добавление сервера в known_hosts
+            -   name: Add server to known_hosts
+                run: |
                     ssh-keyscan -H 195.49.213.49 >> ~/.ssh/known_hosts
 
-            # 5. Создание целевой папки на сервере
+            # 6. Создание целевой папки на сервере
             -   name: Create target directory
                 run: |
                     ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "sudo mkdir -p /var/www/barsuk-admin"
 
-            # 6. Очистка старых файлов
+            # 7. Очистка старых файлов
             -   name: Clean target directory
                 run: |
                     ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "sudo rm -rf /var/www/barsuk-admin/*"
 
-            # 7. Копирование файлов на сервер
+            # 8. Копирование файлов на сервер
             -   name: Copy files to server
                 run: |
                     sudo scp -i ~/.ssh/deploy_key -r dist/* ubuntu@195.49.213.49:/var/www/barsuk-admin/
 
-            # 8. Перезагрузка NGINX
+            # 9. Перезагрузка NGINX
             -   name: Reload NGINX
                 run: |
                     ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "sudo systemctl reload nginx"
