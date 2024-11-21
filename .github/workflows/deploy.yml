@@ -38,14 +38,14 @@ jobs:
             # 5. Очистка папки /var/www/barsuk-admin на сервере
             -   name: Clean server directory
                 run: |
-                    ssh -i ~/.ssh/deploy_key user@195.49.213.49 "rm -rf /var/www/barsuk-admin/*"
+                    ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "rm -rf /var/www/barsuk-admin/*"
 
             # 6. Копирование собранных файлов на сервер
             -   name: Deploy files to server
                 run: |
-                    scp -i ~/.ssh/deploy_key -r dist/* user@195.49.213.49:/var/www/barsuk-admin/
+                    scp -i ~/.ssh/deploy_key -r dist/* ubuntu@195.49.213.49:/var/www/barsuk-admin/
 
             # 7. Перезагрузка NGINX для обновления контента
             -   name: Reload NGINX
                 run: |
-                    ssh -i ~/.ssh/deploy_key user@195.49.213.49 "sudo systemctl reload nginx"
+                    ssh -i ~/.ssh/deploy_key ubuntu@195.49.213.49 "sudo systemctl reload nginx"
