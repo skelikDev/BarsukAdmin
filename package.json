@@ -13,10 +13,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-keycloak/web": "^3.4.0",
     "@tanstack/react-query": "^5.59.20",
-    "axios": "^1.7.7",
+    "axios": "^1.7.9",
     "formik": "^2.4.6",
     "imask": "^7.6.1",
+    "keycloak-js": "^26.0.7",
     "lucide-react": "^0.456.0",
     "openapi-typescript": "^7.4.3",
     "react": "^18.3.1",
