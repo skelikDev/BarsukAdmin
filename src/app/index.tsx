@@ -3,6 +3,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { HomePage } from "../pages/home-page";
+import { useKeycloak } from '@react-keycloak/web';
+import { useEffect } from 'react';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -76,9 +78,30 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+
+
 export const App = () => {
+
+  const { keycloak, initialized } = useKeycloak();
+
+  useEffect(() => {
+    if (initialized && !keycloak.authenticated) {
+      keycloak.login();
+    }
+  }, [keycloak, initialized]);
+
+
+
+
+
   return (
     <ThemeProvider theme={theme}>
+      {keycloak.authenticated && (
+        //Саня замени это на что то красивое (хуй соси)
+        <button onClick={() => keycloak.logout()}>
+          LOGOUT
+        </button>
+      )}
       <GlobalStyle />
       <AppContainer>
         <HomePage />
