@@ -1,0 +1,386 @@
+openapi: 3.0.0
+paths:
+  /users:
+    post:
+      operationId: UsersController_createUser
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserResponseDto'
+      summary: Создать нового пользователя
+      tags: &ref_0
+        - Users
+    get:
+      operationId: UsersController_getAllUsers
+      parameters:
+        - name: name
+          required: false
+          in: query
+          description: Фильтр по имени пользователя
+          schema:
+            type: string
+        - name: phone
+          required: false
+          in: query
+          description: Фильтр по номеру телефона
+          schema:
+            type: string
+        - name: page
+          required: false
+          in: query
+          description: Номер страницы для пагинации
+          schema:
+            example: 1
+            type: number
+        - name: size
+          required: false
+          in: query
+          description: Размер страницы для пагинации
+          schema:
+            example: 10
+            type: number
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPaginationDTO'
+      summary: Получить список пользователей с фильтрацией и пагинацией
+      tags: *ref_0
+  /users/{id}:
+    get:
+      operationId: UsersController_getUserById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID пользователя
+          schema:
+            type: integer
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseByIdDto'
+      summary: Получить пользователя по ID
+      tags: *ref_0
+    delete:
+      operationId: UsersController_deleteUserByPhoneNumber
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: id пользователя
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      summary: Удалить пользователя по id
+      tags: *ref_0
+  /users/{userId}:
+    patch:
+      operationId: UsersController_updateUserPoints
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          description: ID пользователя
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Объект с количеством баллов
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserPointsDto'
+            examples:
+              example:
+                summary: Пример обновления баллов
+                value:
+                  points: 100
+      responses:
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserResponseDto'
+      summary: Обновить количество баллов у пользователя
+      tags: *ref_0
+  /products:
+    post:
+      operationId: ProductController_createProduct
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDto'
+      responses:
+        '201':
+          description: Продукт успешно создан.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+      summary: Создать новый продукт
+      tags: &ref_1
+        - Products
+    get:
+      operationId: ProductController_getProducts
+      parameters:
+        - name: name
+          required: false
+          in: query
+          description: Фильтр по имени продукта
+          schema:
+            type: string
+        - name: category
+          required: false
+          in: query
+          description: Фильтр по категории
+          schema:
+            type: string
+        - name: sortOrder
+          required: false
+          in: query
+          description: Порядок сортировки по цене (ASC или DESC)
+          schema:
+            example: ASC
+            type: string
+      responses:
+        '200':
+          description: Список продуктов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+      summary: Получить список продуктов с фильтрацией и сортировкой
+      tags: *ref_1
+  /products/{id}:
+    patch:
+      operationId: ProductController_updateProduct
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID продукта
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDto'
+      responses:
+        '200':
+          description: Продукт успешно обновлен.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+      summary: Обновить продукт
+      tags: *ref_1
+    delete:
+      operationId: ProductController_deleteProduct
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID продукта
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Продукт успешно удален.
+      summary: Удалить продукт
+      tags: *ref_1
+info:
+  title: Product API
+  description: API для управления продуктами
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas:
+    CreateUserDto:
+      type: object
+      properties:
+        phone:
+          type: string
+          example: '+123456789'
+          description: Номер телефона пользователя
+        name:
+          type: string
+          example: Иван Иванов
+          description: Имя пользователя
+      required:
+        - phone
+        - name
+    CreateUserResponseDto:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: Ruslan
+        phone:
+          type: string
+          example: '88005553535'
+        points:
+          type: number
+          example: 12
+      required:
+        - id
+        - name
+        - phone
+        - points
+    UserResponseDto:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: Ruslan
+        phone:
+          type: string
+          example: '88005553535'
+      required:
+        - id
+        - name
+        - phone
+    UserPaginationDTO:
+      type: object
+      properties:
+        total:
+          type: number
+          example: 100
+        size:
+          type: number
+          example: 10
+        page:
+          type: number
+          example: 1
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponseDto'
+      required:
+        - total
+        - size
+        - page
+        - items
+    RegistrationHistoryDto:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        action:
+          type: string
+          example: REGISTRATION
+        date:
+          format: date-time
+          type: string
+          example: '2024-11-23T11:37:16.121Z'
+      required:
+        - id
+        - action
+        - date
+    UserResponseByIdDto:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: Ruslan
+        phone:
+          type: string
+          example: '88005553535'
+        registrationHistories:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegistrationHistoryDto'
+      required:
+        - id
+        - name
+        - phone
+        - registrationHistories
+    UpdateUserPointsDto:
+      type: object
+      properties:
+        points:
+          type: number
+          example: 100
+          description: Количество баллов пользователя
+      required:
+        - points
+    ProductDto:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          description: Уникальный идентификатор продукта
+        name:
+          type: string
+          example: Продукт A
+          description: Название продукта
+        description:
+          type: string
+          example: Описание продукта A
+          description: Описание продукта
+        price:
+          type: number
+          example: 100
+          description: Цена продукта
+        category:
+          example:
+            - Категория1
+            - Категория2
+          description: Категории продукта
+          nullable: true
+          type: array
+          items:
+            type: string
+        images:
+          example:
+            - url1.jpg
+            - url2.jpg
+          description: Ссылки на изображения продукта
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - name
+        - description
+        - price
+        - category
+        - images
