@@ -2,7 +2,7 @@ import {
     Sidebar,
     SidebarContent, SidebarFooter, SidebarGroup,
     SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem
-} from '@/components/ui/sidebar.tsx';
+} from '@/shadcn/components/ui/sidebar.tsx';
 import {
     Banknote,
     CreditCardIcon,
@@ -41,7 +41,7 @@ export const AppSidebar: FC<TAppSidebarProps> = ({
                                                      collapsible
                                                  }) => {
     return (
-        <Sidebar {...{side, variant, collapsible}}>
+        <Sidebar {...{side, variant, collapsible}} >
             <SidebarHeader/>
             <SidebarContent>
                 <SidebarGroup>
