@@ -8,7 +8,10 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "getApiSchema": "node ./custom-scripts/getApiSchema.cjs"
+    "getApiSchema": "node ./custom-scripts/getApiSchema.cjs",
+    "generate": "npx openapi-typescript ./src/api/api-schema.yaml -o ./src/api/v1.d.ts",
+    "test:ts": "tsc --noEmit",
+    "codegen": "openapi-rq -i ./src/api/api-schema.yaml -o ./src/api/generated"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -17,10 +20,14 @@
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.4",
+    "@tanstack/react-query": "^5.62.7",
+    "@tanstack/react-router": "^0.0.1-alpha.1",
+    "@tanstack/react-router-devtools": "^0.0.1-alpha.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "imask": "^7.6.1",
     "lucide-react": "^0.468.0",
+    "openapi-react-query": "^0.2.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.0",
@@ -30,6 +37,7 @@
     "zod": "^3.24.0"
   },
   "devDependencies": {
+    "@7nohe/openapi-react-query-codegen": "^2.0.0-beta.3",
     "@eslint/js": "^9.15.0",
     "@types/node": "^22.10.1",
     "@types/react": "^18.3.12",
