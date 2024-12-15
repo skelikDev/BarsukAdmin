@@ -7,6 +7,8 @@ import { AppSidebar } from '@/widgets/ui-composition/app-sidebar';
 import { UserSearchForm } from '@/widgets/user-search-form';
 import { MenuIcon } from 'lucide-react';
 import { FC } from 'react';
+import { ThemeProvider } from '@/app/theme-provider';
+import { ModeToggle } from '@/shared/ui/mode-toggle';
 
 type TLayoutProps = {
   children: React.ReactNode;
@@ -16,36 +18,39 @@ const Layout: FC<TLayoutProps> = ({ children }) => {
   const { toggleSidebar } = useSidebar();
 
   return (
-    <div className="flex flex-col grow w-full">
+    <div className="flex bg-background flex-col grow w-full ">
       <div className="flex items-center justify-between p-4">
+        <ModeToggle />
         <span>LOGO</span>
         <MenuIcon onClick={toggleSidebar} size={24} />
       </div>
-      <div className="flex-1 bg-gray-200">{children}</div>
+      <div className="flex-1">{children}</div>
     </div>
   );
 };
 
 function App() {
   return (
-    <SidebarProvider defaultOpen={false}>
-      <Layout>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/cashier"
-              element={
-                <>
-                  <UserSearchForm />
-                </>
-              }
-            />
-            <Route path="/pos" element={<>ieieieieieiie</>} />
-          </Routes>
-        </BrowserRouter>
-      </Layout>
-      <AppSidebar side={'right'} collapsible={'icon'} />
-    </SidebarProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <SidebarProvider defaultOpen={false}>
+        <Layout>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/cashier"
+                element={
+                  <>
+                    <UserSearchForm />
+                  </>
+                }
+              />
+              <Route path="/pos" element={<>ieieieieieiie</>} />
+            </Routes>
+          </BrowserRouter>
+        </Layout>
+        <AppSidebar side={'right'} collapsible={'icon'} />
+      </SidebarProvider>
+    </ThemeProvider>
   );
 }
 
