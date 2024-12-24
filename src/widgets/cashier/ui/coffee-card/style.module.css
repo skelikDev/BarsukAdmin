@@ -1,0 +1,23 @@
+.cardFrame{
+  @apply stroke-primary fill-background;
+}
+
+.present {
+@apply stroke-primary opacity-10 ;
+}
+
+.coffee {
+  @apply stroke-primary opacity-10;
+}
+
+/*.focused.coffee {*/
+/*  @apply stroke-primary scale-100;*/
+/*}*/
+
+.visible.coffee {
+@apply opacity-100;
+}
+
+.visible.present {
+  @apply opacity-100;
+}

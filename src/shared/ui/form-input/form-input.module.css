@@ -1,0 +1,27 @@
+.icon[data-status="default"] circle {
+  @apply stroke-primary
+}
+.icon[data-status="default"] line {
+  @apply stroke-primary
+}
+
+.icon[data-status="success"] circle {
+  @apply stroke-success
+}
+.icon[data-status="success"] line {
+  @apply stroke-success
+}
+
+.icon[data-status="warning"] circle {
+  @apply stroke-warning
+}
+.icon[data-status="warning"] line {
+  @apply stroke-warning
+}
+
+.icon[data-status="error"] circle {
+  @apply stroke-error
+}
+.icon[data-status="error"] line {
+  @apply stroke-error
+}
