@@ -1,19 +1,11 @@
-import { FormInput } from '@/shared/ui/form-input';
 import { useFormik } from 'formik';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/shadcn/components/ui/card.tsx';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { ScrollArea } from '@/shadcn/components/ui/scroll-area.tsx';
+
+import { FC, useEffect, useState } from 'react';
 import { usersApi } from '@/api';
 import { UserResponseDto } from '@/api/types.ts';
 import { useDebounce } from '@/shared/hooks/use-debounce.tsx';
-import { Separator } from '@/shadcn/components/ui/separator.tsx';
+import { InputCombobox } from '@/shared/ui/input-combobox.tsx';
+import { useNavigate } from 'react-router-dom';
 
 const extractNamePhone = (input: string) => {
   const phoneRegex = /\b\d+\b/;
@@ -28,23 +20,33 @@ const extractNamePhone = (input: string) => {
   return { name, phone };
 };
 
-export const UserSearchForm = () => {
+type TUserSearchFormProps = {
+  className?: string;
+};
+
+export const UserSearchForm: FC<TUserSearchFormProps> = ({ className }) => {
   const [users, setUsers] = useState<UserResponseDto[]>([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const form = useFormik({
     initialValues: {
       searchQuery: '',
     },
     validate: (values) => {
-      if (!values.searchQuery) {
-        return { searchQuery: 'Required' };
-      } else if (values.searchQuery.length < 3) {
+      if (values.searchQuery && values.searchQuery.length < 3) {
         return { searchQuery: 'Too short' };
       }
     },
     onSubmit: async (values) => {
       const { name, phone } = extractNamePhone(values.searchQuery);
-
+      const onlySymbols = values.searchQuery.replace(/\s/g, '');
+      if (onlySymbols === '') {
+        return;
+      }
+      setLoading(true);
       const { data } = await usersApi.getAllUsers({ name, phone });
+      setLoading(false);
       setUsers(data.items);
     },
   });
@@ -69,64 +71,43 @@ export const UserSearchForm = () => {
   };
 
   const [debouncedSearchQuery] = useDebounce(form.values.searchQuery, 800);
+
   useEffect(() => {
     form.handleSubmit();
   }, [debouncedSearchQuery]);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    form.setFieldValue('searchQuery', event.target.value);
+  const handleInputChange = (value: string) => {
+    form.setFieldValue('searchQuery', value);
+  };
+
+  const handleRedirect = (id: string) => {
+    navigate(`/cashier/${id}`);
   };
 
   return (
-    <>
-      <Card>
-        <CardHeader>
-          <CardTitle>Поиск</CardTitle>
-          <CardDescription>
-            Поиск по имени и номеру телефона зарегестрированных пользователей
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <FormInput
-            errorPosition={'top'}
-            maskOptions={maskOptions}
-            label={'Имя телефон'}
-            error={form.errors.searchQuery}
-            onChange={handleInputChange}
-            value={form.values.searchQuery}
-          />
-        </CardContent>
-        <CardFooter>
-          <ScrollArea className="h-[200px] w-full py-4">
-            <div className="absolute bottom-4 left-0 right-0 h-4 bg-gradient-to-t from-white to-transparent pointer-events-none" />
-
-            {[
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-              ...users,
-            ].map((user) => {
-              return (
-                <div>
-                  {user.name}
-                  <Separator />
-                </div>
-              );
-            })}
-          </ScrollArea>
-        </CardFooter>
-      </Card>
-    </>
+    <InputCombobox
+      className={className}
+      isLoading={loading}
+      inputProps={{
+        maskOptions: maskOptions,
+        placeholder: 'Поиск',
+        onValueChange: handleInputChange,
+        value: form.values.searchQuery,
+        extraText: form.errors.searchQuery,
+        extraTextPosition: 'icon',
+        status: form.errors.searchQuery ? 'error' : 'default',
+      }}
+      onSelect={(id) => {
+        handleRedirect(id);
+      }}
+      items={users.map((user) => ({
+        id: user.id,
+        el: (
+          <div>
+            {user.name} {user.phone}
+          </div>
+        ),
+      }))}
+    />
   );
 };

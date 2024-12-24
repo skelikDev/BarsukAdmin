@@ -1,120 +1,170 @@
-import { FC, ReactNode, useId, useState } from 'react';
+import { FC, forwardRef, ReactNode, useId, useState } from 'react';
 import { Input, TInputProps } from '@/shadcn/components/ui/input.tsx';
 import { cn } from '@/shadcn/lib/utils.ts';
+import { CircleAlert } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/shadcn/components/ui/tooltip';
+import classes from './form-input.module.css';
 
 export type TFormInputProps = {
   label?: string;
-  error?: string | { text: string; type: 'error' | 'warning' };
-  errorPosition?: 'top' | 'bottom';
-  isStatic?: boolean;
+  extraText?: string;
+  status?: 'default' | 'success' | 'warning' | 'error';
+  extraTextPosition?: 'top' | 'bottom' | 'icon';
 } & TInputProps;
 
 type TErrorProps = {
-  error: string | undefined;
-  errorType: 'error' | 'warning';
+  children?: string;
+  status: 'default' | 'success' | 'warning' | 'error';
 };
 
-const Error: FC<TErrorProps> = ({ error, errorType }) => {
-  if (!error) {
+const ExtraText: FC<TErrorProps> = ({ children, status }) => {
+  if (!children) {
     return null;
   }
-  if (errorType === 'warning') {
-    return <span className={'text-xs text-yellow-500'}>{error}</span>;
-  }
-  return <span className={'text-xs text-red-500'}>{error}</span>;
+
+  return (
+    <span
+      className={cn('text-xs', {
+        'text-success': status === 'success',
+        'text-warning': status === 'warning',
+        'text-error': status === 'error',
+        'text-primary': status === 'default',
+      })}
+    >
+      {children}
+    </span>
+  );
 };
 
 type TInputLayoutProps = {
-  isStatic?: boolean;
-  errorPosition?: 'top' | 'bottom';
-
+  label?: string;
+  extraText?: string;
+  status?: 'default' | 'success' | 'warning' | 'error';
+  extraTextPosition?: 'top' | 'bottom' | 'icon';
+  onFocus?: () => void;
+  onBlur?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   children: ReactNode;
-  label?: ReactNode;
-  error?: ReactNode;
 };
 
 const InputLayout: FC<TInputLayoutProps> = (props) => {
-  const { isStatic, errorPosition, children, label, error } = props;
+  const {
+    label,
+    extraText,
+    status,
+    extraTextPosition,
+    children,
+    onFocus,
+    onBlur,
+    onMouseEnter,
+    onMouseLeave,
+  } = props;
 
+  const isTopExtraText =
+    extraText &&
+    (extraTextPosition === 'top' || extraTextPosition === undefined);
+
+  const isBottomExtraText = extraText && extraTextPosition === 'bottom';
   return (
     <div
-      className={cn('flex flex-col justify-between', {
-        'h-[80px] relative': isStatic && errorPosition === 'bottom',
-        'h-fit': !isStatic || errorPosition === 'bottom',
-      })}
+      className={cn('flex w-full flex-col')}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
-      <div className={'flex h-5 pl-0.5 justify-between'}>
-        {label && label}
-        {error && errorPosition !== 'bottom' && error}
-      </div>
-      <div
-        className={cn('w-full', {
-          'absolute bottom-1/2 left-0 translate-y-1/2': isStatic,
-        })}
-      >
-        {children}
-      </div>
-      <div>{error && errorPosition === 'bottom' && error}</div>
+      {(label || isTopExtraText) && (
+        <div className={'flex justify-between'}>
+          {label && label}
+          {extraText && isTopExtraText && (
+            <ExtraText status={status ?? 'default'}>{extraText}</ExtraText>
+          )}
+        </div>
+      )}
+      {children}
+      {extraText && isBottomExtraText && <div>{extraText}</div>}
     </div>
   );
 };
 
-export const FormInput: FC<TFormInputProps> = ({
-  errorPosition,
-  onFocus,
-  onBlur,
-  label,
-  error: rawError,
-  isStatic,
-  id,
-  className,
-  ...props
-}) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const generatedId = useId();
-  const error = typeof rawError === 'string' ? rawError : rawError?.text;
-  const errorType = typeof rawError === 'object' ? rawError.type : 'error';
+export const FormInput = forwardRef<HTMLInputElement, TFormInputProps>(
+  (
+    {
+      label,
+      extraText,
+      status,
+      extraTextPosition,
+      after,
+      id,
+      className,
+      ...props
+    },
+    ref
+  ) => {
+    const generatedId = useId();
+    const [isFocused, setIsFocused] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
-  return (
-    <InputLayout
-      error={error && <Error error={error} errorType={errorType} />}
-      label={
-        label && (
-          <label className={'text-sm'} htmlFor={id ?? generatedId}>
-            {label}
-          </label>
-        )
-      }
-      errorPosition={errorPosition}
-      isStatic={isStatic}
-    >
-      <Input
-        id={id ?? generatedId}
-        onFocus={(event) => {
-          setIsFocused(true);
-          if (onFocus) {
-            onFocus(event);
-          }
-        }}
-        onBlur={(event) => {
-          setIsFocused(false);
-          if (onBlur) {
-            onBlur(event);
-          }
-        }}
-        className={cn(
-          'w-full',
-          {
-            'border-primary focus-visible:ring-primary': isFocused && !error,
-            'border-error focus-visible:ring-error':
-              error && errorType === 'error',
-            'border-warning focus-visible:ring-warning':
-              error && errorType === 'warning',
-          },
-          className
-        )}
-        {...props}
-      />
-    </InputLayout>
-  );
-};
+    const isIconExtraText = extraText && extraTextPosition === 'icon';
+    const mergedExtraText = isIconExtraText ? (
+      <>
+        <TooltipTrigger asChild>
+          <div className={'absolute left-0 top-0'} />
+        </TooltipTrigger>
+        <CircleAlert
+          size={16}
+          className={cn(classes.icon)}
+          data-status={status ?? 'default'}
+        />
+      </>
+    ) : (
+      after
+    );
+
+    const tooltipContent = extraText && (
+      <TooltipContent side={'top'} align={'start'}>
+        {extraText}
+      </TooltipContent>
+    );
+
+    return (
+      <Tooltip open={Boolean(tooltipContent && (isFocused || isHovered))}>
+        {tooltipContent}
+        <InputLayout
+          onFocus={() => {
+            setIsFocused(true);
+          }}
+          onBlur={() => {
+            setIsFocused(false);
+          }}
+          onMouseEnter={() => {
+            setIsHovered(true);
+          }}
+          onMouseLeave={() => {
+            setIsHovered(false);
+          }}
+          label={label}
+          extraText={extraText}
+          status={status}
+          extraTextPosition={extraTextPosition}
+        >
+          <Input
+            ref={ref}
+            {...props}
+            id={id ?? generatedId}
+            className={className}
+            after={mergedExtraText}
+            status={status}
+          />
+        </InputLayout>
+      </Tooltip>
+    );
+  }
+);
+
+FormInput.displayName = 'FormInput';

@@ -41,6 +41,7 @@ export interface UserResponseByIdDto {
   id: number;
   name: string;
   phone: string;
+  points: number;
   registrationHistories: RegistrationHistoryDto[];
 }
 

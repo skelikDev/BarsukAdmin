@@ -1,0 +1,27 @@
+.default {
+  @apply border-border
+}
+.default:has(input:focus) {
+  @apply border-primary;
+}
+
+.success {
+  @apply border-success;
+}
+.success:has(input:focus) {
+  @apply border-success-foreground
+}
+
+.warning {
+  @apply border-warning;
+}
+.warning:has(input:focus) {
+  @apply border-warning-foreground
+}
+
+.error {
+  @apply border-error;
+}
+.error:has(input:focus) {
+  @apply border-error-foreground
+}

@@ -1,0 +1,17 @@
+.highlight {
+  animation: highlight-animation 300ms ease-in-out forwards;
+}
+
+@keyframes highlight-animation {
+  0% {
+    color: hsl(var(--success));
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+}
