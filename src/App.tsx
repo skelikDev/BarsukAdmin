@@ -12,11 +12,14 @@ import { ModeToggle } from '@/shared/ui/mode-toggle';
 import { TooltipProvider } from '@/shadcn/components/ui/tooltip.tsx';
 import { Cashier } from './widgets/cashier';
 import { Toaster } from '@/shadcn/components/ui/toaster.tsx';
+// import { useKeycloak } from '@react-keycloak/web';
+// import { Button } from '@/shadcn/components/ui/button.tsx';
 
 type TLayoutProps = {};
 
 const Layout: FC<TLayoutProps> = () => {
   const { toggleSidebar } = useSidebar();
+  // const { keycloak } = useKeycloak();
 
   return (
     <div className="flex w-full grow flex-col bg-background">
@@ -25,6 +28,17 @@ const Layout: FC<TLayoutProps> = () => {
         <span>LOGO</span>
         <div className={'flex items-center gap-4'}>
           <UserSearchForm className={'w-60'} />
+          {/*{keycloak.authenticated ? (*/}
+          {/*  <Button onClick={() => keycloak.logout()}>LOGOUT</Button>*/}
+          {/*) : (*/}
+          {/*  <Button*/}
+          {/*    onClick={() => {*/}
+          {/*      keycloak.login();*/}
+          {/*    }}*/}
+          {/*  >*/}
+          {/*    LOGIN*/}
+          {/*  </Button>*/}
+          {/*)}*/}
           <div
             className={
               'flex h-9 w-9 cursor-pointer items-center justify-center rounded-md hover:bg-primary-foreground hover:bg-opacity-10'
